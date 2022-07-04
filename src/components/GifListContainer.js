@@ -2,25 +2,36 @@ import React, { useEffect, useState } from "react";
 import GifList from "./GifList";
 import GifSearch from "./GifSearch";
 
-function GifListContainer() {
+function GifListContainer () {
   const [gifs, setGifs] = useState([]);
-  const [query, setQuery] = useState("dolphins");
+  // const [query, setQuery] = useState("dolphins");
 
   useEffect(() => {
     fetch(
-      `https://api.giphy.com/v1/gifs/search?q=${query}&api_key=dc6zaTOxFJmzC&rating=g&limit=3`
+      `https://api.giphy.com/v1/gifs/search?q=dolphin&api_key=7aWOUF7ltSlvncKu49oY2qXXWcYEjkxx&rating=g`
     )
-      .then((r) => r.json())
-      .then(({ data }) => {
-        const gifs = data.map((gif) => ({ url: gif.images.original.url }));
-        setGifs(gifs);
-      });
-  }, [query]);
+      .then(resp => {
+        return resp.json()
+      })
+
+      .then(({data}) => {
+        console.log(data.slice(0,3))
+        const newData = data.slice(0,3).map (gif => {
+          return {url: gif.images.original.url}
+        
+      })
+      setGifs(newData)
+    })
+  }, [])
+
+  const onSearchFormSubmit = () => {
+    console.log("running on search function")
+  }
 
   return (
     <div style={{ display: "flex" }}>
-      <GifList gifs={gifs} />
-      <GifSearch onSubmitQuery={setQuery} />
+      <GifList theGifs={gifs} />
+      <GifSearch onSearchFormSubmit={onSearchFormSubmit} />
     </div>
   );
 }

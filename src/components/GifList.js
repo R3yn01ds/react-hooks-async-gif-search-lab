@@ -1,11 +1,13 @@
 import React from "react";
 
-function GifList({ gifs }) {
+function GifList({theGifs}) {
+  console.log(theGifs);
+
   return (
-    <ul>
-      {gifs.map((gif) => (
-        <li key={gif.url}>
-          <img src={gif.url} alt="gif" />
+  <ul>
+      {theGifs.map(({ url }, index) => (
+        <li key={index}>
+          <img src={url} alt='gif'></img>
         </li>
       ))}
     </ul>
